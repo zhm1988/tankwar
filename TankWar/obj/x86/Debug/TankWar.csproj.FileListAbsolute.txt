@@ -1,0 +1,9 @@
+G:\TankWar\TankWar\bin\Debug\TankWar.exe
+G:\TankWar\TankWar\bin\Debug\TankWar.pdb
+G:\TankWar\TankWar\obj\x86\Debug\ResolveAssemblyReference.cache
+G:\TankWar\TankWar\obj\x86\Debug\TankWar.TankMainForm.resources
+G:\TankWar\TankWar\obj\x86\Debug\TankWar.Properties.Resources.resources
+G:\TankWar\TankWar\obj\x86\Debug\GenerateResource.read.1.tlog
+G:\TankWar\TankWar\obj\x86\Debug\GenerateResource.write.1.tlog
+G:\TankWar\TankWar\obj\x86\Debug\TankWar.exe
+G:\TankWar\TankWar\obj\x86\Debug\TankWar.pdb
