@@ -28,13 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-            this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
-            // 
-            // timer1
-            // 
-            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
             // TankMainForm
             // 
@@ -44,8 +38,8 @@
             this.Name = "TankMainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "TankWar";
-            this.Load += new System.EventHandler(this.TankMainForm_Load);
-            this.Paint += new System.Windows.Forms.PaintEventHandler(this.TankMainForm_Paint);
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.TankMainForm_FormClosing);          
+            this.Load += new System.EventHandler(this.TankMainForm_Load);            
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TankMainForm_KeyDown);
             this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.TankMainForm_KeyUp);
             this.ResumeLayout(false);
@@ -54,7 +48,6 @@
 
         #endregion
 
-        private System.Windows.Forms.Timer timer1;
 
     }
 }

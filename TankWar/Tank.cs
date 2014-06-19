@@ -90,8 +90,7 @@ namespace TankWar
         public void DrawSelf(Graphics g)
         {
             Rectangle recttank = new Rectangle(this.Location, this.TankSize);
-            g.FillRectangle(new SolidBrush(Color.Red), recttank);            
-            TankRun();
+            g.FillRectangle(new SolidBrush(Color.Red), recttank); 
         }
 
         public void TankRun()

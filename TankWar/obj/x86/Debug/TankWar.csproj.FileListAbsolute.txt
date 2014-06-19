@@ -7,8 +7,6 @@ G:\TankWar\TankWar\obj\x86\Debug\GenerateResource.read.1.tlog
 G:\TankWar\TankWar\obj\x86\Debug\GenerateResource.write.1.tlog
 G:\TankWar\TankWar\obj\x86\Debug\TankWar.exe
 G:\TankWar\TankWar\obj\x86\Debug\TankWar.pdb
-G:\tank\tankwar\TankWar\obj\x86\Debug\TankWar.exe
-G:\tank\tankwar\TankWar\obj\x86\Debug\TankWar.pdb
 G:\tank\tankwar\TankWar\bin\Debug\Images\Boss.jpg
 G:\tank\tankwar\TankWar\bin\Debug\Images\BulletDown.jpg
 G:\tank\tankwar\TankWar\bin\Debug\Images\BulletLeft.jpg
@@ -70,3 +68,5 @@ G:\tank\tankwar\TankWar\obj\x86\Debug\TankWar.TankMainForm.resources
 G:\tank\tankwar\TankWar\obj\x86\Debug\TankWar.Properties.Resources.resources
 G:\tank\tankwar\TankWar\obj\x86\Debug\GenerateResource.read.1.tlog
 G:\tank\tankwar\TankWar\obj\x86\Debug\GenerateResource.write.1.tlog
+G:\tank\tankwar\TankWar\obj\x86\Debug\TankWar.exe
+G:\tank\tankwar\TankWar\obj\x86\Debug\TankWar.pdb
