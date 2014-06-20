@@ -87,10 +87,10 @@ namespace TankWar
 
         #region Public Function 方法
 
-        public void DrawSelf(Graphics g)
+        public virtual void DrawSelf(Graphics g)
         {
             Rectangle recttank = new Rectangle(this.Location, this.TankSize);
-            g.FillRectangle(new SolidBrush(Color.Red), recttank); 
+            g.FillRectangle(new SolidBrush(Color.Red), recttank);
         }
 
         public void TankRun()
@@ -200,18 +200,23 @@ namespace TankWar
             getDirection();
         }
 
-        public void Shoot()
+        public Rectangle GetRectangle() 
+        {
+            return new Rectangle(this.Location, this.TankSize);
+        }
+
+        public virtual void Shoot()
         {
             Bullet bullet = null;
             if (TankDirection == Direction.STOP)
             {
-                bullet = new Bullet(new Point(Location.X + 20, Location.Y + 20), new Size(), 20, LastDirection);
+                bullet = new Bullet(new Point(Location.X + 20, Location.Y + 20), new Size(), 20, LastDirection,BulletType.HeroBullet);
             }
             else
             {
-                bullet = new Bullet(new Point(Location.X + 20, Location.Y + 20), new Size(), 20, TankDirection);
+                bullet = new Bullet(new Point(Location.X + 20, Location.Y + 20), new Size(), 20, TankDirection, BulletType.HeroBullet);
             }
-            this._bullets.Add(bullet);
+            this.Bullets.Add(bullet);
         }
 
         #endregion

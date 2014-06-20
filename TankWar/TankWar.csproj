@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bullet.cs" />
+    <Compile Include="EnemyTank.cs" />
     <Compile Include="Tank.cs" />
     <Compile Include="TankMainForm.cs">
       <SubType>Form</SubType>

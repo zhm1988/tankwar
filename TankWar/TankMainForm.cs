@@ -18,20 +18,23 @@ namespace TankWar
         Thread HeroTankThread = null;       //HeroTank线程
         Thread EnemyTankThread = null;      //EnemyTank线程
         Tank HeroTank = null;
-        Tank enemy1 = null;
-        List<Tank> Enemys = null;
+        List<EnemyTank> Enemys = null;
+        Random r = new Random();
+        Func<Color, EnemyTank> func = null;
         public TankMainForm()
         {
             InitializeComponent();
+            func = new Func<Color, EnemyTank>(getTankList);
             InitMainForm();
             InitTank();
             //设置双缓冲 解决闪烁问题
             this.SetStyle(ControlStyles.DoubleBuffer | ControlStyles.UserPaint | ControlStyles.AllPaintingInWmPaint, true);
             this.UpdateStyles();
             CheckForIllegalCrossThreadCalls = false;
+
         }
 
-        //原来底层重绘每次会清除画布，然后再全部重新绘制，这才是导致闪烁最主要的原因
+        // 原来底层重绘每次会清除画布，然后再全部重新绘制，这才是导致闪烁最主要的原因
         protected override void WndProc(ref Message m)
         {
             // 禁掉清除背景消息
@@ -57,7 +60,7 @@ namespace TankWar
             EnemyTankThread.Start();
             EnemyTankThread.IsBackground = true;
         }
-       
+
         /// <summary>
         /// 窗体按下事件
         /// </summary>
@@ -67,13 +70,15 @@ namespace TankWar
         {
             HeroTank.KeyDown(e);
             if (e.KeyCode == Keys.A)
+            {
                 HeroTank.Shoot();
+            }
         }
 
         private void TankMainForm_KeyUp(object sender, KeyEventArgs e)
         {
             HeroTank.KeyUp(e);
-        }       
+        }
 
         private void TankMainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
@@ -84,7 +89,7 @@ namespace TankWar
                 HeroTankThread.Join(1);
                 HeroTankThread.Abort();
                 EnemyTankThread.Join(1);
-                EnemyTankThread.Abort();               
+                EnemyTankThread.Abort();
             }
             catch
             {
@@ -102,53 +107,50 @@ namespace TankWar
         {
             this.Width = ScreenWidth;
             this.Height = ScreenHeight;
-            this.BackColor = Color.Green;
+            this.BackColor = Color.Black;
             this.MaximizeBox = false;
         }
         //初始化Tank
         private void InitTank()
         {
             HeroTank = new Tank(5);
-            Random r = new Random();
-            enemy1 = new Tank(new Point(r.Next(0, 800), r.Next(0, 600)), new Size(), 50);
-            Enemys = new List<Tank>() { new Tank(new Point(r.Next(0, 750), r.Next(0, 550)), new Size(), 50), new Tank(new Point(r.Next(0, 750), r.Next(0, 550)), new Size(), 50) };
+            Enemys = new List<EnemyTank>() { func(Color.Green), func(Color.Yellow), func(Color.Blue), func(Color.Green), func(Color.Yellow), func(Color.Blue) };
         }
 
         //画出Tank
-        private void DrawTank(Graphics g,Tank tank)
+        private void DrawTank(Graphics g, Tank tank)
         {
             tank.DrawSelf(g);
             if (tank.Bullets != null && tank.Bullets.Count > 0)
             {
-                foreach (var item in tank.Bullets)
+                for (int i = 0; i < tank.Bullets.Count; i++)
                 {
-                    item.DrawSelf(g);
+                    tank.Bullets[i].DrawSelf(g);
                 }
             }
         }
-       
+
         //刷新主界面
         private void UpdateUI()
         {
             while (true)
-            {                
+            {
+                isHit();
                 Graphics g = this.CreateGraphics();
                 Bitmap bitmap = new Bitmap(ScreenWidth, ScreenHeight);
                 Graphics bufferGraphics = Graphics.FromImage(bitmap);
                 bufferGraphics.Clear(this.BackColor);
                 Rectangle rect = new Rectangle(0, 0, ScreenWidth, ScreenHeight);
                 bufferGraphics.FillRectangle(new SolidBrush(Color.Black), rect);
-                DrawTank(bufferGraphics,HeroTank);
-                DrawTank(bufferGraphics,enemy1);
+                DrawTank(bufferGraphics, HeroTank);
                 foreach (var item in Enemys)
                 {
-                    DrawTank(bufferGraphics,item);
-                    item.TankDirection = (Direction)new Random().Next(1, 8);
+                    DrawTank(bufferGraphics, item);
                 }
                 g.DrawImage(bitmap, 0, 0);
                 bufferGraphics.Dispose();
                 bitmap.Dispose();
-                Thread.Sleep(50);                         
+                Thread.Sleep(50);
             }
         }
         //刷新Hero
@@ -167,12 +169,43 @@ namespace TankWar
             {
                 foreach (var item in Enemys)
                 {
-                    item.TankRun();                   
+                    item.TankRun();
                     item.Shoot();
                 }
-                enemy1.TankRun();
-                enemy1.Shoot();
                 Thread.Sleep(1000);
+            }
+        }
+
+        private EnemyTank getTankList(Color color)
+        {
+            return new EnemyTank(new Point(r.Next(0, 750), r.Next(0, 550)), new Size(), 50, color);
+        }
+
+        //检查碰撞
+        private void isHit()
+        {
+            for (int i = 0; i < Enemys.Count; i++)
+            {
+                //判断Hero是否与敌人子弹相撞
+                for (int j = 0; j < Enemys[i].Bullets.Count; j++)
+                {
+                    if (HeroTank.GetRectangle().IntersectsWith(Enemys[i].Bullets[j].GetRectagle()))
+                    {
+                        MessageBox.Show("game over");
+                        MainUIThread.Abort();
+                    }
+                }
+                //判断敌人是否与HERO子弹相撞
+                if (HeroTank.Bullets.Count > 0)
+                {
+                    for (int k = 0; k < HeroTank.Bullets.Count; k++)
+                    {
+                        if (HeroTank.Bullets[k].GetRectagle().IntersectsWith(Enemys[i].GetRectangle())) 
+                        {
+                            Enemys.Remove(Enemys[i]);
+                        }
+                    }
+                }
             }
         }
 
